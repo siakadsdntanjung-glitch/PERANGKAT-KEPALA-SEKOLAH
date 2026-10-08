@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administrasi Kepala Sekolah</title>
+<style>
+:root{--bg:#f3f5f1;--sf:#fff;--ink:#1c2b2e;--mu:#5d6d70;--ln:#d6dcd6;--ac:#0f6e56;--as:#dcefe8}
+@media(prefers-color-scheme:dark){:root{--bg:#141c1e;--sf:#1c2629;--ink:#e8eeec;--mu:#9bacaf;--ln:#2f3d40;--ac:#52c3a2;--as:#1b3a33}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:16px 18px 4px;max-width:1280px;margin:0 auto}
+h1{margin:0;font-size:22px}
+header p{margin:4px 0 0;color:var(--mu);font-size:14px}
+.app{display:grid;grid-template-columns:320px 1fr;gap:16px;max-width:1280px;margin:0 auto;padding:12px 18px 40px;align-items:start}
+aside{position:sticky;top:10px;max-height:calc(100vh - 20px);overflow:auto;background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:12px}
+aside h2{font-size:14px;margin:0 0 8px}
+details{margin-bottom:6px}
+summary{cursor:pointer;font-weight:600;padding:6px 4px}
+.f label{display:block;font-size:12px;color:var(--mu);margin-top:8px}
+input,select,textarea{width:100%;padding:8px 10px;border:1px solid var(--ln);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+button{font:inherit;cursor:pointer}
+.it{display:block;width:100%;text-align:left;border:0;background:none;color:var(--ink);padding:7px 10px;border-radius:8px;font-size:14px}
+.it:hover{background:var(--as)}
+.it.on{background:var(--ac);color:#fff}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.tools button{padding:9px 14px;border-radius:9px;border:1px solid var(--ac);background:var(--ac);color:#fff}
+.tools button.o{background:none;color:var(--ac)}
+.tools label{font-size:13px;color:var(--mu);display:flex;gap:6px;align-items:center}
+.tools input{width:64px}
+.hint{font-size:13px;color:var(--mu);margin:0 0 10px}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.pw{overflow-x:auto}
+#paper{background:#fff;color:#000;width:210mm;max-width:100%;min-height:297mm;margin:0 auto;padding:20mm 18mm;font:12pt/1.5 "Times New Roman",Times,serif;box-shadow:0 1px 10px rgba(0,0,0,.18)}
+#paper .empty{color:#666;text-align:center;padding-top:80px;font:15px system-ui,sans-serif}
+#ds{display:none}
+#paper .kop{text-align:center;border-bottom:3px double #000;padding-bottom:6px;margin-bottom:14px;line-height:1.3}
+#paper .sk{font-size:16pt;font-weight:bold}
+#paper .al{font-size:10pt}
+#paper .jd{text-align:center;font-size:13pt;margin:10px 0 2px}
+#paper .sj{text-align:center;margin:0 0 12px}
+#paper .c{text-align:center}
+#paper h3{font-size:12pt;margin:12px 0 2px}
+#paper p{margin:6px 0;text-align:justify}
+#paper table{border-collapse:collapse;width:100%;font-size:11pt}
+#paper th,#paper td{border:1px solid #000;padding:4px 6px;vertical-align:top;height:22px}
+#paper th{background:#eee}
+#paper .nb td,#paper .sg td{border:0;padding:2px 4px}
+#paper .nb td:first-child{width:26%}
+#paper .nb td:nth-child(2){width:12px}
+#paper .sg td{width:50%}
+#paper .ttd{margin:22px 0 0 55%}
+#paper .ph{background:#fff3b0}
+#paper .pb{page-break-before:always}
+@media(max-width:820px){.app{grid-template-columns:1fr}aside{position:static;max-height:none}#paper{padding:14px}}
+@media print{header,aside,.tools,.hint{display:none!important}body{background:#fff}.app{display:block;padding:0}#paper{width:auto;min-height:0;padding:0;box-shadow:none}#paper .ph{background:none}@page{size:A4;margin:20mm 18mm}}
+
+:root[data-theme=light]{--bg:#f3f5f1;--sf:#fff;--ink:#1c2b2e;--mu:#5d6d70;--ln:#d6dcd6;--ac:#0f6e56;--as:#dcefe8}
+:root[data-theme=dark]{--bg:#141c1e;--sf:#1c2629;--ink:#e8eeec;--mu:#9bacaf;--ln:#2f3d40;--ac:#52c3a2;--as:#1b3a33}
+input[type=checkbox]{width:auto}
+.shell{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.side{background:var(--sf);border-right:1px solid var(--ln);padding:14px 10px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{font-weight:800;font-size:16px;padding:4px 8px 0}
+.bsub{font-size:12px;color:var(--mu);padding:0 8px 6px}
+.grp{font-size:12px;color:var(--mu);padding:12px 8px 4px}
+.mn{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;border:0;background:none;color:var(--ink);padding:8px 10px;border-radius:8px;font-size:14px}
+.mn:hover{background:var(--as)}
+.mn.on{background:var(--ac);color:#fff}
+.main{padding:18px;max-width:1100px;width:100%}
+.top{display:none}
+.vt{margin:0 0 4px;font-size:22px}
+.sub{color:var(--mu);margin:0 0 14px}
+h3{font-size:16px;margin:18px 0 8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:14px}
+.stat b{display:block;font-size:26px}
+.bar2{height:8px;background:var(--ln);border-radius:6px;overflow:hidden;margin-top:8px}
+.bar2 i{display:block;height:100%;background:var(--ac)}
+.list{background:var(--sf);border:1px solid var(--ln);border-radius:12px;overflow:hidden}
+.row{display:flex;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--ln)}
+.row:last-child{border-bottom:0}
+.row label{flex:1;display:flex;gap:10px;align-items:center;cursor:pointer;margin:0;font-size:14px;color:var(--ink)}
+.pill{font-size:12px;padding:2px 8px;border-radius:20px;background:var(--as);color:var(--ac)}
+.btn{padding:9px 14px;border-radius:9px;border:1px solid var(--ac);background:var(--ac);color:#fff}
+.btn.o{background:none;color:var(--ac)}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 14px;max-width:760px}
+.bk{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.bk label{display:flex;gap:6px;align-items:center;margin:0 0 0 auto;font-size:14px;color:var(--ink)}
+@media(max-width:820px){.shell{display:block}.top{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--sf);border-bottom:1px solid var(--ln);position:sticky;top:0;z-index:5}.side{position:fixed;left:0;top:0;bottom:0;width:270px;z-index:10;transform:translateX(-100%);transition:transform .2s;height:auto}.side.open{transform:none}.main{padding:12px}}
+@media print{.side,.top,.view:not(#v-editor),.bk,.tools,.hint{display:none!important}.shell{display:block}.main{padding:0;max-width:none}}
+[hidden]{display:none!important}
+.auth{position:fixed;inset:0;background:var(--bg);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
+.auth .card{width:100%;max-width:380px}
+.auth h2{margin:0 0 4px}
+.auth input{margin-bottom:10px}
+.row2{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.err{color:#b3261e;font-size:13px;min-height:18px;margin-top:8px}
+@media(prefers-color-scheme:dark){.err{color:#f2b8b5}}
+@media print{.auth{display:none!important}}
+@media print{#aip{display:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side" id="side"><div class="brand">Administrasi Kepala Sekolah</div><div class="bsub">Pembuat dokumen otomatis</div><div id="usr" class="bsub" hidden><span id="ue"></span><br><span id="syn"></span><button class="mn" id="out" style="margin-top:6px;padding:6px 8px">Keluar</button></div><div id="mnu"></div></aside>
+<div>
+<div class="top"><button class="btn o" id="mb">Menu</button><b>Administrasi Kepala Sekolah</b></div>
+<main class="main">
+<section class="view" id="v-home"></section>
+<section class="view" id="v-sekolah" hidden>
+<h2 class="vt">Data Sekolah</h2><p class="sub">Dipakai pada kop surat, SK, dan semua dokumen. Tersimpan di browser ini.</p>
+<div class="f fg">
+<label>Instansi induk<input id="ind" placeholder="Dinas Pendidikan Kabupaten/Kota ..."></label>
+<label>Nama sekolah<input id="sek" placeholder="SD Negeri 1 ..."></label>
+<label>NPSN<input id="npsn"></label>
+<label>Alamat sekolah<input id="alm"></label>
+<label>Kota/kabupaten (tempat tanda tangan)<input id="kota"></label>
+<label>Nama kepala sekolah<input id="kep"></label>
+<label>NIP kepala sekolah<input id="nip"></label>
+<label>Tahun pelajaran<input id="ta"></label>
+<label>Tanggal dokumen<input id="tgl" type="date"></label>
+<label>Nomor dokumen (surat dan SK)<input id="no" placeholder="421/001/2026"></label>
+</div>
+<p><button class="btn" data-go="home">Simpan dan ke Beranda</button></p>
+</section>
+<section class="view" id="v-guru" hidden>
+<h2 class="vt">Data Guru dan Pegawai</h2><p class="sub">Satu baris per orang dengan format Nama; NIP; Jabatan. Dipakai untuk mengisi tabel, SK, dan surat tugas secara otomatis.</p>
+<div class="f" style="max-width:760px"><textarea id="gru" rows="12" placeholder="Siti Aminah, S.Pd; 198001012005012001; Guru Kelas 1"></textarea></div>
+<p class="sub" id="gc"></p>
+</section>
+<section class="view" id="v-cat" hidden></section>
+<section class="view" id="v-editor" hidden>
+<div class="bk"><button class="btn o" id="bk">Kembali</button><b id="etitle"></b><label><input type="checkbox" id="edone">Tandai selesai</label></div>
+<div class="tools">
+<button id="au" class="o">Isi otomatis: mati</button>
+<button id="pr">Cetak / simpan PDF</button>
+<button id="wd" class="o">Unduh Word (.doc)</button>
+<button id="arc" class="o">Simpan ke arsip</button>
+<label>Jumlah baris tabel<input id="rows" type="number" min="1" max="60" value="10"></label>
+</div>
+<p class="hint">Teks berlatar kuning masih perlu diisi. Tekan "Isi otomatis" untuk mengisi bagian kosong dengan contoh isi berdasarkan data sekolah, lalu periksa dan sesuaikan. Kertas bisa diedit langsung; ubah jumlah baris sebelum mengedit karena kertas dibuat ulang.</p>
+<div class="card" id="aip" style="margin-bottom:12px"><b>Asisten AI</b><p class="sub" style="margin:4px 0 8px">Tulis harapan Anda (misalnya jenjang, fokus program, anggaran, atau gaya bahasa), lalu AI menyusun isi dokumen ini dari data sekolah dan data guru.</p><div class="f"><textarea id="aiq" rows="3" placeholder="Contoh: SD kelas rendah, fokus literasi dan numerasi, dana BOS sekitar Rp 150 juta per tahun"></textarea></div><div class="row2"><button class="btn" id="aig">Buat dengan AI</button><button class="btn o" id="aic">Hapus hasil AI</button></div><p class="sub" id="ais" style="margin:8px 0 0"></p></div>
+<div class="pw"><div id="paper" contenteditable="true"></div></div>
+</section>
+<section class="view" id="v-check" hidden>
+<h2 class="vt">Checklist Progres</h2><p class="sub">Tandai dokumen yang sudah selesai.</p>
+<div class="card" id="cprog"></div>
+<div class="f" style="margin:12px 0"><input id="cq" type="search" placeholder="Cari dokumen" aria-label="Cari dokumen"></div>
+<div id="clist"></div>
+<p><button class="btn o" id="crs">Reset centang</button></p>
+</section>
+<section class="view" id="v-export" hidden>
+<h2 class="vt">Cetak dan Ekspor</h2><p class="sub">Unduh dokumen yang terisi otomatis dari data sekolah dan data guru. Hasilnya berupa file Word (.doc) dengan pemisah halaman per dokumen.</p>
+<p><button class="btn" id="all">Unduh semua dokumen (.doc)</button></p>
+<h3>Per kategori</h3><div id="excat" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+</section>
+<section class="view" id="v-set" hidden>
+<h2 class="vt">Pengaturan</h2>
+<div class="f" style="max-width:360px"><label>Tampilan<select id="th"><option value="auto">Ikuti perangkat</option><option value="light">Terang</option><option value="dark">Gelap</option></select></label></div>
+<h3>Penyimpanan online (Firebase)</h3>
+<p class="sub" style="max-width:680px">Website ini sudah terhubung ke proyek Firebase bawaan (pendidikan-bb558). Untuk memakai proyek lain, tempel konfigurasi web app Firebase (Project settings, Your apps). Konfigurasi harus memuat apiKey, authDomain, databaseURL, dan projectId. Setelah terhubung, halaman meminta login email dan kata sandi, lalu data sekolah, daftar guru, dan checklist tersimpan online.</p>
+<div class="f" style="max-width:680px"><textarea id="fbc" rows="8" placeholder="const firebaseConfig = { apiKey: ..., authDomain: ..., databaseURL: ..., projectId: ..., appId: ... };"></textarea></div>
+<p><button class="btn" id="fbs">Simpan dan hubungkan</button> <button class="btn o" id="fbd">Putuskan (mode lokal)</button> <button class="btn o" id="fbr">Pakai konfigurasi bawaan</button></p><p class="sub" id="fst"></p>
+<h3>Asisten AI</h3>
+<p class="sub" style="max-width:680px">Pilih penyedia AI dan masukkan kunci API Anda. Gemini punya paket gratis (kunci dari aistudio.google.com/apikey). Claude berbayar (kunci dari console.anthropic.com). Kunci hanya disimpan di browser ini dan tidak dikirim ke Firebase. Jangan memakainya di komputer bersama dan jangan membagikan browser atau file yang sudah berisi kunci.</p>
+<div class="f" style="max-width:420px"><label>Penyedia<select id="aipv"><option value="gemini">Google Gemini</option><option value="claude">Anthropic Claude</option></select></label><label>Kunci API<input id="aik" type="password" autocomplete="off"></label><label>Model (boleh diubah)<input id="aim"></label></div>
+<p><button class="btn" id="aisv">Simpan pengaturan AI</button></p><p class="sub" id="aist"></p>
+<h3>Data tersimpan</h3><p class="sub">Menghapus data sekolah, daftar guru, dan checklist dari browser ini.</p>
+<p><button class="btn o" id="rst">Hapus semua data</button></p>
+</section>
+<section class="view" id="v-admin" hidden>
+<h2 class="vt">Verifikasi Akun</h2><p class="sub">Setujui atau tolak akun pengguna yang mendaftar. Akun baru harus disetujui sebelum bisa memakai aplikasi.</p>
+<div class="row2" id="atabs" style="margin-bottom:12px"></div>
+<div id="alist" class="list"></div>
+<p class="sub" id="ast"></p>
+</section>
+<section class="view" id="v-arsip" hidden>
+<h2 class="vt">Arsip Dokumen</h2><p class="sub">Versi dokumen yang sudah Anda edit dan simpan. Satu dokumen menyimpan satu versi terakhir. Jika Anda login, arsip tersimpan online.</p>
+<div id="alst" class="list"></div>
+</section>
+<section class="view" id="v-help" hidden>
+<h2 class="vt">Panduan</h2>
+<ol style="line-height:1.8;max-width:680px"><li>Isi <b>Data Sekolah</b> dan <b>Data Guru dan Pegawai</b>.</li><li>Buka salah satu kategori di menu Dokumen, lalu klik <b>Buat</b> pada dokumen yang diinginkan.</li><li>Klik <b>Isi otomatis</b> agar bagian kosong terisi contoh isi. Periksa dan sesuaikan dengan data sebenarnya.</li><li>Edit langsung di kertas, lalu <b>Cetak / simpan PDF</b> atau <b>Unduh Word</b>.</li><li>Pantau kemajuan di <b>Checklist Progres</b> dan unduh semuanya di <b>Cetak dan Ekspor</b>.</li></ol>
+<p class="sub" style="max-width:680px">Isi otomatis hanya contoh. Nama dan kelengkapan dokumen perlu dicocokkan dengan pedoman dinas pendidikan setempat.</p>
+</section>
+</main>
+</div>
+</div>
+<div class="auth" id="auth" hidden><div class="card"><h2>Masuk</h2><p class="sub">Masuk dengan email agar data sekolah tersimpan online dan bisa dibuka dari perangkat mana pun.</p><div class="f"><label>Email<input id="ae" type="email" autocomplete="username"></label><label>Kata sandi<input id="ap" type="password" autocomplete="current-password"></label></div><div class="row2"><button class="btn" id="ain">Masuk</button><button class="btn o" id="aup">Daftar</button></div><div class="row2"><button class="btn o" id="afg">Lupa kata sandi</button><button class="btn o" id="askip">Pakai tanpa login</button></div><div class="err" id="am"></div></div></div>
+<div class="auth" id="gate" hidden><div class="card"><h2>Verifikasi akun</h2><p id="gm"></p><p class="sub" id="gu" style="word-break:break-all"></p><p class="sub">Pemilik aplikasi: untuk menjadi admin utama, tambahkan UID di atas ke node administrasi_admin di Firebase (nilai true), lalu muat ulang.</p><div class="row2"><button class="btn" id="gre">Periksa lagi</button><button class="btn o" id="gout">Keluar</button></div></div></div>
+<div hidden><input id="q"><div id="lst"></div></div>
+<script>
+var $=function(i){return document.getElementById(i)};
+var C=["Perencanaan","Kurikulum dan Pembelajaran","Supervisi dan Evaluasi","Kesiswaan","Ketenagaan","Keuangan","Sarana dan Prasarana","Persuratan dan Kearsipan","Humas dan Komite","Pelaporan"];
+var R=`0|Visi, Misi, dan Tujuan Sekolah|L|Visi,Misi,Tujuan Sekolah,Strategi Pencapaian
+0|Rencana Kerja Sekolah (RKS)|L|Pendahuluan,Profil dan Analisis Kondisi Sekolah,Visi Misi dan Tujuan,Program Prioritas 4 Tahun,Rencana Anggaran,Monitoring dan Evaluasi
+0|Rencana Kerja Tahunan (RKT)|T|Program,Kegiatan,Sasaran,Waktu,Penanggung Jawab,Anggaran
+0|RKAS (Rencana Kegiatan dan Anggaran Sekolah)|T|Kode,Uraian Kegiatan,Volume,Satuan,Harga Satuan,Jumlah
+0|Kurikulum Operasional Satuan Pendidikan (KOSP)|L|Analisis Konteks,Visi Misi dan Tujuan,Pengorganisasian Pembelajaran,Perencanaan Pembelajaran,Pendampingan dan Evaluasi
+0|Kalender Pendidikan|T|Bulan,Kegiatan,Tanggal,Keterangan
+0|Program Kerja Kepala Sekolah|T|Bidang,Program,Indikator,Waktu,Keterangan
+0|Struktur Organisasi dan Pembagian Tugas|T|Nama,Jabatan,Tugas Pokok,Keterangan
+0|Jadwal Pelajaran|T|Jam,Senin,Selasa,Rabu,Kamis,Jumat,Sabtu
+1|SK Pembagian Tugas Mengajar|K|Nama Guru,Mata Pelajaran/Kelas,Jam per Minggu
+1|Rekap Perangkat Ajar Guru|T|Nama Guru,Modul Ajar,ATP,Program Tahunan,Program Semester,Keterangan
+1|Daftar Nilai dan Leger|T|Nama Siswa,NISN,Nilai 1,Nilai 2,Nilai 3,Rata-rata
+1|Buku Induk Siswa|T|No Induk,NISN,Nama,Tempat/Tgl Lahir,Nama Orang Tua,Tanggal Masuk
+1|Program Remedial dan Pengayaan|T|Mata Pelajaran,Kompetensi,Nama Siswa,Bentuk Kegiatan,Waktu,Hasil
+1|Program Ekstrakurikuler|T|Nama Ekskul,Pembina,Hari/Jam,Jumlah Peserta,Keterangan
+2|Program Supervisi|L|Latar Belakang,Tujuan,Sasaran,Jadwal Pelaksanaan,Instrumen,Tindak Lanjut
+2|Instrumen Supervisi Kelas|T|Aspek yang Diamati,Indikator,Skor (1-4),Catatan
+2|Laporan Hasil Supervisi|L|Pendahuluan,Pelaksanaan,Hasil Temuan,Kesimpulan,Tindak Lanjut
+2|Evaluasi Diri Sekolah (EDS)|L|Identitas Sekolah,Hasil Analisis Capaian,Prioritas Perbaikan,Rekomendasi
+2|Laporan Kinerja Kepala Sekolah|L|Pendahuluan,Capaian Kinerja Manajerial,Capaian Supervisi,Kewirausahaan,Kesimpulan
+2|Penilaian Kinerja Guru (PKG)|T|Nama Guru,NIP,Kompetensi,Nilai,Predikat
+2|Notulen Rapat Evaluasi|N|
+3|Data Peserta Didik|T|NISN,Nama,L/P,Kelas,Tempat/Tgl Lahir,Nama Orang Tua
+3|SK Panitia PPDB/SPMB|K|Nama,Jabatan Panitia,Tugas
+3|Laporan PPDB/SPMB|L|Pendahuluan,Pelaksanaan,Hasil Penerimaan,Kendala,Tindak Lanjut
+3|Data Mutasi Siswa|T|Nama,NISN,Kelas,Jenis Mutasi,Tanggal,Sekolah Asal/Tujuan
+3|Program Kesiswaan dan OSIS|T|Kegiatan,Sasaran,Waktu,Penanggung Jawab,Keterangan
+3|Tata Tertib Siswa|L|Kewajiban,Larangan,Sanksi,Penghargaan
+3|Data Prestasi dan Beasiswa (PIP)|T|Nama Siswa,Kelas,Prestasi/Bantuan,Tingkat,Tahun
+3|Surat Keterangan Siswa|S|
+4|Data Pendidik dan Tenaga Kependidikan|T|Nama,NIP/NUPTK,Jabatan,Pendidikan,Status,Mapel/Tugas
+4|SK Wali Kelas|K|Nama Guru,Kelas,Keterangan
+4|SK Panitia Kegiatan|K|Nama,Jabatan Panitia,Tugas
+4|Daftar Urut Kepangkatan (DUK)|T|Nama,NIP,Pangkat/Gol,TMT,Masa Kerja,Pendidikan
+4|Absensi Guru dan Pegawai|T|Nama,Hadir,Sakit,Izin,Alpa,Keterangan
+4|Penilaian Kinerja Pegawai (SKP)|T|Rencana Hasil Kerja,Indikator,Target,Realisasi,Nilai
+4|Rekap Cuti dan Izin|T|Nama,Jenis,Tanggal Mulai,Tanggal Selesai,Keterangan
+4|Usulan Tunjangan dan Mutasi|T|Nama,NIP,Jenis Usulan,Alasan,Keterangan
+5|Realisasi RKAS (BOS/BOP)|T|Uraian,Anggaran,Realisasi,Sisa,Keterangan
+5|Buku Kas Umum|T|Tanggal,No Bukti,Uraian,Penerimaan,Pengeluaran,Saldo
+5|Buku Pembantu Pajak|T|Tanggal,Uraian,PPN,PPh,Disetor,Keterangan
+5|Daftar Bukti Pengeluaran (SPJ)|T|Tanggal,No Bukti,Penerima,Uraian,Jumlah
+5|Laporan Penggunaan Dana BOS|L|Pendahuluan,Penerimaan Dana,Penggunaan Dana,Sisa Dana,Kesimpulan
+5|Laporan Pajak|T|Bulan,Jenis Pajak,Dasar Pengenaan,Jumlah Pajak,Tanggal Setor
+5|Pertanggungjawaban Dana Komite|T|Uraian,Penerimaan,Pengeluaran,Saldo,Keterangan
+6|Buku Inventaris Barang|T|Kode Barang,Nama Barang,Merk/Tipe,Tahun,Jumlah,Kondisi
+6|Daftar Inventaris Ruang|T|Nama Barang,Jumlah,Baik,Rusak Ringan,Rusak Berat,Keterangan
+6|Kartu Inventaris Barang (KIB)|T|Kode,Nama Aset,Tahun Perolehan,Asal Dana,Nilai,Kondisi
+6|Data Aset Tanah dan Bangunan|T|Jenis Aset,Luas,Status Kepemilikan,Tahun,Kondisi
+6|Rencana dan Laporan Pemeliharaan|T|Objek,Jenis Kerusakan,Rencana Perbaikan,Biaya,Status
+6|Usulan Kebutuhan Sarana|T|Nama Sarana,Jumlah,Alasan,Perkiraan Biaya,Prioritas
+7|Agenda Surat Masuk|T|Tgl Terima,No Surat,Asal Surat,Perihal,Disposisi
+7|Agenda Surat Keluar|T|Tanggal,No Surat,Tujuan,Perihal,Keterangan
+7|Buku Ekspedisi|T|Tanggal,No Surat,Tujuan,Pengirim,Penerima/Paraf
+7|Surat Undangan|S|
+7|Surat Edaran|S|
+7|Surat Tugas|S|
+7|Surat Keterangan|S|
+7|SPPD (Perjalanan Dinas)|T|Nama,NIP,Tujuan,Tanggal Berangkat,Tanggal Kembali,Keperluan
+7|Buku Tamu|T|Tanggal,Nama,Instansi,Keperluan,Tanda Tangan
+7|Buku Catatan Kegiatan|T|Tanggal,Kegiatan,Uraian,Keterangan
+8|Naskah Kerja Sama (MoU)|L|Para Pihak,Maksud dan Tujuan,Ruang Lingkup,Hak dan Kewajiban,Jangka Waktu,Penutup
+8|Notulen Rapat Komite dan Orang Tua|N|
+8|Laporan Kegiatan Bersama Masyarakat|L|Pendahuluan,Pelaksanaan,Hasil,Penutup
+9|Laporan Bulanan, Semester, dan Tahunan|L|Pendahuluan,Kegiatan Pembelajaran,Kesiswaan,Ketenagaan,Keuangan,Sarana dan Prasarana,Kendala dan Tindak Lanjut
+9|Laporan Asesmen dan ANBK|L|Pendahuluan,Persiapan,Pelaksanaan,Hasil,Evaluasi
+9|Laporan Kinerja Sekolah|L|Pendahuluan,Capaian Mutu,Hambatan,Rencana Perbaikan
+9|Dokumen Akreditasi Sekolah|L|Profil Sekolah,Standar Isi,Standar Proses,Standar Kompetensi Lulusan,Standar Pendidik dan Tenaga Kependidikan,Standar Sarana dan Prasarana,Standar Pengelolaan,Standar Pembiayaan`.split("\n").map(function(l,i){var p=l.split("|");return{i:i,c:+p[0],t:p[1],y:p[2],x:p[3]?p[3].split(","):[]}});
+var SM={Undangan:[["Hari/Tanggal","Waktu","Tempat","Acara"],"Dengan hormat, kami mengundang Bapak/Ibu untuk hadir pada kegiatan yang akan dilaksanakan pada:","Demikian undangan ini kami sampaikan. Atas perhatian dan kehadiran Bapak/Ibu, kami ucapkan terima kasih.",1],
+Tugas:[["Nama","NIP","Jabatan","Tugas","Waktu"],"Yang bertanda tangan di bawah ini, Kepala sekolah, menugaskan kepada:","Demikian surat tugas ini dibuat untuk dilaksanakan dengan penuh tanggung jawab.",0],
+Keterangan:[["Nama","NIS/NIP","Kelas/Jabatan","Keperluan"],"Yang bertanda tangan di bawah ini, Kepala sekolah, menerangkan bahwa:","Demikian surat keterangan ini dibuat untuk dipergunakan sebagaimana mestinya.",0],
+Edaran:[[],"Dengan hormat, sehubungan dengan [uraikan latar belakang], dengan ini kami sampaikan hal-hal berikut:","Demikian surat edaran ini disampaikan untuk dilaksanakan. Atas perhatian Bapak/Ibu, kami ucapkan terima kasih.",1]};
+var FL=["ind","sek","npsn","alm","kota","kep","nip","ta","tgl","no","gru"],cur=-1,st={};
+try{st=JSON.parse(localStorage.getItem("gdk1")||"{}")}catch(e){}
+FL.forEach(function(k){if(st[k])$(k).value=st[k]});
+var d0=new Date(),y0=d0.getMonth()>=6?d0.getFullYear():d0.getFullYear()-1;
+if(!$("ta").value)$("ta").value=y0+"/"+(y0+1);
+if(!$("tgl").value)$("tgl").valueAsDate=d0;
+function E(s){return String(s).replace(/[&<>]/g,function(m){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[m]})}
+function v(k,d){var s=$(k).value.trim();return s?E(s):'<span class="ph">'+d+'</span>'}
+function V(k,d){return E($(k).value.trim()||d).toUpperCase()}
+function tg(){var t=$("tgl").value;return t?new Date(t+"T00:00:00").toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}):'<span class="ph">[Tanggal]</span>'}
+function kop(){return '<div class="kop"><div>'+V("ind","[Instansi induk]")+'</div><div class="sk">'+V("sek","[Nama sekolah]")+'</div><div class="al">NPSN: '+v("npsn","[NPSN]")+' | '+v("alm","[Alamat sekolah]")+'</div></div>'}
+function ttd(i){var s=v("kota","[Kota]")+', '+tg()+'<br>Kepala '+v("sek","[Nama sekolah]")+',<br><br><br><br><u><b>'+v("kep","[Nama kepala sekolah]")+'</b></u><br>NIP. '+v("nip","[NIP]");return i?s:'<div class="ttd">'+s+'</div>'}
+function tbl(c,n){if(AID&&AID.rows)n=Math.max(1,AID.rows.length);else if(A&&/^nama( guru)?$/i.test(c[0])&&!/Siswa|Peserta|Prestasi/.test(T0))n=GU().length;var h='<table><tr><th>No</th>'+c.map(function(x){return'<th>'+E(x)+'</th>'}).join('')+'</tr>';for(var i=1;i<=n;i++)h+='<tr><td>'+i+'</td>'+c.map(function(x,j){return'<td>'+(AID&&AID.rows?AIH((AID.rows[i-1]||[])[j]==null?"":AID.rows[i-1][j]):(A?cell(x,i-1):''))+'</td>'}).join('')+'</tr>';return h+'</table>'}
+function nb(r){return '<table class="nb">'+r.map(function(x){return'<tr><td>'+x[0]+'</td><td>:</td><td>'+x[1]+'</td></tr>'}).join('')+'</table>'}
+function build(r){
+T0=r.t;AID=AIDATA[r.i]||null;var n=Math.max(1,Math.min(60,+$("rows").value||10)),t=r.t,x=r.x,h,ta=v("ta","[Tahun pelajaran]"),sek=v("sek","[Nama sekolah]");
+var hd='<h2 class="jd">'+E(t.toUpperCase())+'</h2><p class="sj">'+sek+'<br>Tahun Pelajaran '+ta+'</p>';
+var no=v("no","[Nomor]");
+if(r.y=="T")h=kop()+hd+tbl(x,n)+ttd();
+else if(r.y=="L")h=kop()+hd+'<p>Dokumen ini disusun oleh '+sek+' sebagai '+E(t)+' Tahun Pelajaran '+ta+'.</p>'+x.map(function(s,i){return'<h3>'+(i+1)+'. '+E(s)+'</h3><p>'+(AID&&AID.bagian&&AID.bagian[i]!=null?AIH(AID.bagian[i]):(A?para(s):'[Uraikan '+E(s.toLowerCase())+' di sini]'))+'</p>'}).join('')+ttd();
+else if(r.y=="K"){var t2=E(t.replace(/^SK /,''));
+h=kop()+'<div class="c"><b>KEPUTUSAN KEPALA '+sek.toUpperCase()+'</b><br><b>NOMOR: '+no+'</b><br>TENTANG<br><b>'+t2.toUpperCase()+'</b><br>TAHUN PELAJARAN '+ta+'</div><p><b>KEPALA '+sek.toUpperCase()+',</b></p>'
++nb([["Menimbang","a. bahwa untuk kelancaran penyelenggaraan pendidikan di "+sek+" perlu ditetapkan "+t2+";<br>b. bahwa nama-nama yang tercantum dalam lampiran dinilai mampu melaksanakan tugas tersebut;"],["Mengingat","1. Undang-Undang Nomor 20 Tahun 2003 tentang Sistem Pendidikan Nasional;<br>2. Peraturan Pemerintah Nomor 57 Tahun 2021 tentang Standar Nasional Pendidikan;<br>3. <span class=\"ph\">[Peraturan lain yang relevan]</span>"]])
++'<p class="c"><b>MEMUTUSKAN</b></p>'
++nb([["Menetapkan","<b>KEPUTUSAN KEPALA SEKOLAH TENTANG "+t2.toUpperCase()+"</b>"],["KESATU","Menetapkan "+t2+" sebagaimana tercantum dalam lampiran keputusan ini."],["KEDUA","Pihak yang ditunjuk wajib melaksanakan tugas dengan penuh tanggung jawab dan melaporkan hasilnya kepada Kepala Sekolah."],["KETIGA","Keputusan ini berlaku sejak tanggal ditetapkan. Apabila terdapat kekeliruan, akan diperbaiki sebagaimana mestinya."]])
++ttd()+'<div class="pb"></div><p><b>Lampiran Keputusan Kepala '+sek+'<br>Nomor: '+no+'</b></p>'+tbl(x,n);}
+else if(r.y=="S"){var k=Object.keys(SM).filter(function(a){return t.indexOf(a)>=0})[0],m=SM[k];
+h=kop()+(m[3]?'<table class="nb"><tr><td>Nomor</td><td>:</td><td>'+no+'</td></tr><tr><td>Lampiran</td><td>:</td><td>-</td></tr><tr><td>Hal</td><td>:</td><td><b>'+E(t.replace(/^Surat /,''))+'</b></td></tr></table><p>Yth. <span class="ph">[Nama/jabatan penerima]</span><br>di <span class="ph">[tempat]</span></p>':'<h2 class="jd"><u>'+E(t.toUpperCase())+'</u></h2><p class="sj">Nomor: '+no+'</p>')
++'<p>'+m[1]+'</p>'+(m[0].length?nb(m[0].map(function(a){return[a,'<span class="ph">['+a+']</span>']})):'<p><span class="ph">[Uraikan isi surat]</span></p>')+'<p>'+m[2]+'</p>'+ttd();}
+else h=kop()+hd+nb([["Hari/Tanggal",P("Hari/Tanggal")],["Waktu",P("Waktu")],["Tempat",P("Tempat")],["Agenda",P("Agenda")],["Peserta",P("Peserta")]])+'<h3>Uraian Pembahasan</h3><p>[Tuliskan jalannya pembahasan]</p><h3>Keputusan</h3><p>[Tuliskan keputusan rapat]</p><h3>Tindak Lanjut</h3><p>[Tuliskan tindak lanjut dan penanggung jawab]</p><table class="sg"><tr><td>Notulis,<br><br><br><br><u><b><span class="ph">[Nama notulis]</span></b></u></td><td>'+ttd(1)+'</td></tr></table>';
+return A||AID?fin(h):h}
+function show(){if(cur>=0)$("paper").innerHTML=build(R[cur])}
+function list(){var f=$("q").value.toLowerCase(),h="";C.forEach(function(c,ci){var it=R.filter(function(r){return r.c==ci&&(r.t+" "+c).toLowerCase().indexOf(f)>=0});if(!it.length)return;h+='<details'+(f||ci==0?' open':'')+'><summary>'+c+'</summary>'+it.map(function(r){return'<button class="it'+(r.i==cur?' on':'')+'" data-i="'+r.i+'">'+E(r.t)+'</button>'}).join('')+'</details>'});$("lst").innerHTML=h||'<p class="hint">Dokumen tidak ditemukan.</p>'}
+$("lst").onclick=function(e){var b=e.target.closest(".it");if(!b)return;cur=+b.dataset.i;document.querySelectorAll(".it").forEach(function(x){x.classList.toggle("on",+x.dataset.i==cur)});show();if(innerWidth<=820)$("paper").scrollIntoView()};
+$("q").oninput=list;
+FL.forEach(function(k){$(k).onchange=function(){st[k]=$(k).value;try{localStorage.setItem("gdk1",JSON.stringify(st))}catch(e){}show()}});
+$("rows").onchange=show;
+$("pr").onclick=function(){if(cur<0)return alert("Pilih dokumen terlebih dahulu.");print()};
+$("wd").onclick=function(){if(cur<0)return alert("Pilih dokumen terlebih dahulu.");
+var css=document.getElementById("wcss").textContent;
+var h='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>@page{size:21cm 29.7cm;margin:2cm}'+css+'</style></head><body><div id="paper" style="padding:0;width:auto;min-height:0;box-shadow:none">'+$("paper").innerHTML+'</div></body></html>';
+var a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff",h],{type:"application/msword"}));a.download=R[cur].t.replace(/[^\w]+/g,"-")+".doc";document.body.appendChild(a);a.click();a.remove()};
+var A=0,T0="",MN=["Juli","Agustus","September","Oktober","November","Desember","Januari","Februari","Maret","April","Mei","Juni"],FN=["Ahmad","Siti","Muhammad","Nur","Dimas","Putri","Rizky","Aulia"],LN=["Fauzi","Aisyah","Pratama","Azizah","Lestari","Hidayat","Ramadhan","Wulandari"],DY=["Bahasa Indonesia","Matematika","IPAS","Pend. Pancasila","PJOK","Seni Budaya"];
+function SN(i){return FN[i%8]+" "+LN[(i*3+1)%8]}
+function P(k){return'<span class="ph">['+k+']</span>'}
+function mon(i){return"Rp "+((i+1)*750000).toLocaleString("id-ID")}
+function GU(){var a=$("gru").value.split("\n").map(function(l){var p=l.split(";");return{n:E((p[0]||"").trim()),p:E((p[1]||"-").trim()),j:E((p[2]||"Guru").trim())}}).filter(function(x){return x.n});if(!a.length){a=[{n:E($("kep").value.trim()||"Kepala Sekolah"),p:E($("nip").value.trim()||"-"),j:"Kepala Sekolah"}];for(var i=1;i<=5;i++)a.push({n:"Guru Kelas "+i,p:"-",j:"Guru Kelas"})}return a}
+var DD=[[/program (tahunan|semester)|modul|atp/,"Tersedia"],[/program|bidang/,"Peningkatan mutu pembelajaran|Penguatan literasi dan numerasi|Pengembangan kompetensi guru|Penguatan pendidikan karakter|Pemeliharaan sarana dan prasarana"],
+[/kegiatan|uraian|objek/,"Rapat kerja awal tahun|Asesmen sumatif|Pelatihan guru di sekolah|Peringatan hari besar nasional|Gerakan literasi sekolah"],
+[/perihal/,"Undangan rapat koordinasi|Permohonan data sekolah|Pemberitahuan kegiatan|Laporan pelaksanaan kegiatan"],
+[/sasaran/,"Seluruh peserta didik|Seluruh guru|Tenaga kependidikan|Orang tua dan komite"],
+[/penanggung|pembina|pengirim|penerima/,"Kepala Sekolah|Wakil Kepala Sekolah|Guru Kelas|Operator Sekolah|Bendahara"],
+[/tugas/,"Mengajar dan membimbing peserta didik|Mengelola administrasi sekolah|Membina kegiatan kesiswaan|Mengelola keuangan sekolah"],
+[/perbaikan/,"Penggantian atap|Pengecatan ulang|Perbaikan mebel"],[/kerusakan/,"Atap bocor|Cat mengelupas|Kursi rusak"],
+[/indikator|aspek|kompetensi|rencana hasil/,"Perencanaan pembelajaran|Pelaksanaan pembelajaran|Penilaian pembelajaran|Pengelolaan kelas|Profesionalisme guru"],
+[/target/,"100%|90%|100%"],[/skor/,"4|3|4|3"],[/kepemilikan/,"Milik pemerintah"],[/asal dana/,"BOS|APBD|Hibah"],
+[/status|kondisi|predikat/,"Baik|Baik|Cukup|Sangat Baik"],[/baik|rusak/,"1|0|2|0"],
+[/keterangan|catatan|hasil|disposisi|bentuk/,"Terlaksana sesuai rencana|Perlu ditindaklanjuti|Sudah diarsipkan|Selesai"],
+[/pendidikan/,"S1|S1|D4|S2"],[/pangkat/,"III/b|III/c|III/d|IV/a"],[/masa kerja/,"5 tahun|8 tahun|12 tahun|20 tahun"],
+[/mata ?pelajaran|mapel/,DY.join("|")],[/ekskul/,"Pramuka|Futsal|Seni Tari|Paduan Suara|Pencak Silat"],[/hari/,"Sabtu 14.00|Jumat 14.00|Kamis 14.00"],
+[/nama (barang|aset|sarana)|merk/,"Meja siswa|Kursi siswa|Papan tulis|Lemari arsip|Laptop"],[/jenis aset/,"Tanah|Gedung kelas|Ruang guru|Perpustakaan"],[/luas/,"1.200 m2|320 m2|96 m2"],
+[/alasan/,"Memenuhi kebutuhan sekolah|Sesuai ketentuan"],[/prioritas/,"Tinggi|Sedang|Rendah"],[/asal|tujuan|instansi/,"Dinas Pendidikan|UPT Pendidikan|Puskesmas|Sekolah lain"],
+[/usulan/,"Tunjangan profesi|Mutasi|Kenaikan pangkat"],[/jenis mutasi/,"Masuk|Keluar"],[/jenis pajak/,"PPh 21|PPh 22|PPN"],[/^jenis$/,"Cuti tahunan|Izin|Sakit"],[/tanda tangan/,""],[/satuan/,"Paket|Buah|Unit"]];
+function cell(col,i){var c=col.toLowerCase(),L=GU(),g=L[i%L.length],y=+($("tgl").value||"2026").slice(0,4),dt=new Date(($("tgl").value||"2026-07-01")+"T00:00:00");
+if(/nama siswa/.test(c)||(/^nama$/.test(c)&&/Siswa|Peserta|Prestasi/.test(T0)))return SN(i);
+if(/^nama( guru)?$/.test(c))return g.n;
+if(/^nip/.test(c))return g.p;
+if(/panitia/.test(c))return["Ketua","Sekretaris","Bendahara","Anggota","Anggota"][i%5];
+if(/jabatan/.test(c))return g.j;
+if(/lahir/.test(c))return E($("kota").value.trim()||"Kota")+", "+(i%28+1)+"/"+(i%9+1)+"/"+(y-9+i%3);
+if(/bulan|^waktu$/.test(c))return MN[i%12];
+if(/tanggal|tgl|tmt/.test(c)){dt.setDate(dt.getDate()+i);return dt.toLocaleDateString("id-ID",{day:"2-digit",month:"2-digit",year:"numeric"})}
+if(/^no |kode/.test(c))return("00"+(i+1)).slice(-3)+"/"+y;
+if(/^nisn/.test(c))return 51230000+i*7;
+if(/^l\/p/.test(c))return i%2?"P":"L";
+if(/^kelas$/.test(c))return"Kelas "+(i%6+1);
+if(/^jam$/.test(c))return["07.00-07.35","07.35-08.10","08.10-08.45","Istirahat","09.00-09.35","09.35-10.10"][i%6];
+if(/^(senin|selasa|rabu|kamis|jumat|sabtu)$/.test(c))return i%6==3?"Istirahat":DY[(i+c.length)%6];
+if(/jam per/.test(c))return 24-(i%3)*6;
+if(/^nilai|rata/.test(c))return 75+(i*7+c.length*3)%20;
+if(/^hadir/.test(c))return 22;
+if(/sakit|izin|alpa/.test(c))return i%3?0:1;
+if(/^realisasi/.test(c)&&!/RKAS|BOS/.test(T0))return"Tercapai";
+if(/jumlah/.test(c)&&!/RKAS|Bukti|pajak/.test(T0+c))return(i%4+1)*10;
+if(/anggaran|harga|biaya|saldo|penerimaan|pengeluaran|^sisa|^pp[nh]|disetor|jumlah|dasar|realisasi/.test(c))return mon(i);
+if(/tahun/.test(c))return y-1-i%5;
+if(/volume/.test(c))return(i%3+1)*5;
+for(var k=0;k<DD.length;k++)if(DD[k][0].test(c)){var l=DD[k][1].split("|");return l[i%l.length]}
+return"Sesuai ketentuan"}
+function para(s){var l=s.toLowerCase(),n=E($("sek").value.trim()||"sekolah"),t=E($("ta").value||"");
+if(/^visi/.test(l))return"Terwujudnya peserta didik yang beriman, berakhlak mulia, cerdas, mandiri, dan berprestasi.";
+if(/^misi/.test(l))return"1. Menanamkan nilai keimanan dan akhlak mulia.<br>2. Melaksanakan pembelajaran yang aktif, kreatif, dan menyenangkan.<br>3. Mengembangkan potensi dan prestasi peserta didik.<br>4. Mewujudkan lingkungan sekolah yang bersih, aman, dan nyaman.";
+if(/tujuan/.test(l))return"Tujuan "+n+" adalah meningkatkan mutu layanan pendidikan, memperkuat karakter peserta didik, dan mewujudkan tata kelola sekolah yang transparan dan akuntabel.";
+if(/pendahuluan|latar|identitas|profil/.test(l))return"Dokumen ini disusun untuk menjamin penyelenggaraan pendidikan di "+n+" pada Tahun Pelajaran "+t+" berjalan terencana, tertib, dan akuntabel sesuai ketentuan yang berlaku.";
+if(/kesimpulan|penutup/.test(l))return"Berdasarkan uraian di atas, kegiatan telah dilaksanakan sesuai rencana dan akan terus ditingkatkan pada periode berikutnya.";
+if(/tindak lanjut|rekomendasi|perbaikan/.test(l))return"Tindak lanjut berupa pembinaan, perbaikan, dan penguatan program dilaksanakan secara berkala dengan pemantauan kepala sekolah.";
+if(/kendala|hambatan/.test(l))return"Kendala yang dihadapi meliputi keterbatasan waktu, sarana, dan anggaran. Sekolah mengatasinya melalui koordinasi dan penyesuaian prioritas.";
+if(/jadwal|pelaksanaan/.test(l))return"Kegiatan dilaksanakan sepanjang Tahun Pelajaran "+t+" sesuai kalender pendidikan dan pembagian tugas yang telah ditetapkan di "+n+".";
+return"Uraian "+E(s.toLowerCase())+" di "+n+" pada Tahun Pelajaran "+t+" disusun berdasarkan data dan kondisi sekolah serta dilaksanakan sesuai ketentuan yang berlaku."}
+function fin(h){var L=GU(),g=L[0],g1=L[1]||g,s=E($("sek").value.trim()||"sekolah"),ta=E($("ta").value||""),w=new Date(($("tgl").value||"2026-07-01")+"T00:00:00").toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+var a={"Hari/Tanggal":w,"Waktu":"08.00 WIB sampai selesai","Tempat":"Ruang guru "+s,"Acara":"Rapat koordinasi awal tahun pelajaran "+ta,"Agenda":"Koordinasi program dan pembagian tugas Tahun Pelajaran "+ta,"Peserta":"Kepala sekolah, guru, dan tenaga kependidikan","Nama":g.n,"NIP":g.p,"Jabatan":g.j,"Tugas":"Mengikuti kegiatan peningkatan kompetensi sebagai perwakilan sekolah","NIS/NIP":g.p,"Kelas/Jabatan":g.j,"Keperluan":"Melengkapi persyaratan administrasi","Nama/jabatan penerima":"Bapak/Ibu Guru dan Tenaga Kependidikan","tempat":s,"Uraikan isi surat":"Sehubungan dengan pelaksanaan kegiatan di "+s+", diminta kepada seluruh pihak terkait untuk melaksanakannya dengan tertib dan penuh tanggung jawab.","uraikan latar belakang":"pelaksanaan kegiatan pembelajaran Tahun Pelajaran "+ta,"Peraturan lain yang relevan":"Peraturan perundang-undangan lain yang berlaku di bidang pendidikan","Nama notulis":g1.n,"Tuliskan jalannya pembahasan":"Rapat dibuka oleh kepala sekolah, dilanjutkan pemaparan agenda dan diskusi. Peserta menyampaikan masukan, kendala, dan usulan perbaikan secara terbuka.","Tuliskan keputusan rapat":"Seluruh peserta menyepakati hasil pembahasan untuk dilaksanakan sesuai pembagian tugas masing-masing.","Tuliskan tindak lanjut dan penanggung jawab":"Tindak lanjut dilaksanakan oleh penanggung jawab kegiatan dan dilaporkan pada rapat berikutnya."};
+if(AID&&AID.isian)for(var q in AID.isian)a[q]=AIH(AID.isian[q]);for(var k in a)h=h.split('<span class="ph">['+k+']</span>').join(a[k]).split('['+k+']').join(a[k]);return h}
+function dl(h,n){var x='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>@page{size:21cm 29.7cm;margin:2cm}'+$("wcss").textContent+'</style></head><body><div id="paper">'+h+'</div></body></html>';var a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff",x],{type:"application/msword"}));a.download=n+".doc";document.body.appendChild(a);a.click();a.remove()}
+$("au").onclick=function(){A=!A;this.textContent="Isi otomatis: "+(A?"hidup":"mati");this.classList.toggle("o",!A);show()};
+$("all").onclick=function(){var o=A;A=1;var h=R.map(function(r){return build(r)}).join('<div class="pb"></div>');A=o;dl(h,"semua-dokumen-administrasi")};
+list();
+
+var TN={T:"Tabel",L:"Narasi",K:"SK",S:"Surat",N:"Notulen"},VW=["home","sekolah","guru","cat","editor","check","export","set","help","admin","arsip"],curV="home",curA,lastCat=-1,CK={};
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}return null}
+try{CK=JSON.parse(ls("gdk-ck")||"{}")}catch(e){CK={}}
+function sv(){ls("gdk-ck",JSON.stringify(CK))}
+function mi(k,t,n){return'<button class="mn" data-v="'+k+'">'+E(t)+(n!=null?'<span>'+n+'</span>':'')+'</button>'}
+function menu(){$("mnu").innerHTML='<div class="grp">Utama</div>'+mi("home","Beranda")+mi("sekolah","Data Sekolah")+mi("guru","Data Guru dan Pegawai")+'<div class="grp">Dokumen</div>'+C.map(function(c,i){return mi("cat:"+i,c,R.filter(function(r){return r.c==i}).length)}).join("")+'<div class="grp">Alat</div>'+mi("check","Checklist Progres")+'<div id="admmn" hidden>'+mi("admin","Verifikasi Akun")+'</div>'+mi("arsip","Arsip Dokumen")+mi("export","Cetak dan Ekspor")+mi("set","Pengaturan")+mi("help","Panduan")}
+function nav(k){var p=k.split(":");go(p[0],p[1])}
+function nd(){return Object.keys(CK).filter(function(k){return CK[k]}).length}
+function pc(a,b){return Math.round(a/b*100)}
+function stat(t,v,p){return'<div class="card stat"><span class="sub">'+t+'</span><b>'+v+'</b>'+(p!=null?'<div class="bar2"><i style="width:'+Math.round(p*100)+'%"></i></div>':'')+'</div>'}
+function rHome(){var f=["ind","sek","npsn","alm","kota","kep","nip","ta"],n=f.filter(function(k){return $(k).value.trim()}).length,d=nd(),t=R.length,g=$("gru").value.split("\n").filter(function(l){return l.trim()}).length;
+$("v-home").innerHTML='<h2 class="vt">Beranda</h2><p class="sub">'+E($("sek").value.trim()||"Isi data sekolah untuk memulai")+'</p><div class="cards">'+stat("Kelengkapan data sekolah",pc(n,f.length)+"%",n/f.length)+stat("Dokumen selesai",d+" dari "+t,d/t)+stat("Guru dan pegawai",g||"-")+stat("Kategori dokumen",C.length)+'</div>'+(n<f.length?'<p><button class="btn" data-go="sekolah">Lengkapi data sekolah</button></p>':'')+'<h3>Kategori dokumen</h3><div class="cards">'+C.map(function(c,i){var l=R.filter(function(r){return r.c==i}),dn=l.filter(function(r){return CK[r.i]}).length;return'<div class="card"><b>'+c+'</b><div class="sub" style="margin:4px 0">'+l.length+' dokumen, '+dn+' selesai</div><div class="bar2"><i style="width:'+pc(dn,l.length)+'%"></i></div><p style="margin:10px 0 0"><button class="btn o" data-go="cat:'+i+'">Buka</button></p></div>'}).join("")+'</div>'}
+function rowH(r,b,t){return'<div class="row"><label><input type="checkbox" data-ck="'+r.i+'"'+(CK[r.i]?" checked":"")+'><span>'+E(r.t)+'</span></label>'+(AIDATA[r.i]?'<span class="pill">AI</span>':'')+(t?'<span class="pill">'+TN[r.y]+'</span>':'')+'<button class="btn'+(t?'':' o')+'" data-op="'+r.i+'">'+b+'</button></div>'}
+function rCat(ci){ci=+ci;var l=R.filter(function(r){return r.c==ci});$("v-cat").innerHTML='<h2 class="vt">'+C[ci]+'</h2><p class="sub">'+l.length+' dokumen. Lengkapi data sekolah dan data guru agar dokumen terisi otomatis.</p><p><button class="btn o" data-dlc="'+ci+'">Unduh semua dokumen kategori ini (.doc)</button></p>'+AICARD(ci)+'<div class="list">'+l.map(function(r){return rowH(r,"Buat",1)}).join("")+'</div>'}
+function rCheck(){var f=$("cq").value.toLowerCase(),d=nd(),h="";C.forEach(function(c,ci){var l=R.filter(function(r){return r.c==ci&&(r.t+" "+c).toLowerCase().indexOf(f)>=0});if(!l.length)return;h+='<h3>'+c+'</h3><div class="list">'+l.map(function(r){return rowH(r,"Buka",0)}).join("")+'</div>'});$("cprog").innerHTML='<b style="font-size:22px">'+pc(d,R.length)+'%</b> <span class="sub">('+d+' dari '+R.length+' dokumen selesai)</span><div class="bar2"><i style="width:'+pc(d,R.length)+'%"></i></div>';$("clist").innerHTML=h||'<p class="sub">Dokumen tidak ditemukan.</p>'}
+function go(v,a){curV=v;curA=a;VW.forEach(function(x){$("v-"+x).hidden=x!=v});var k=v=="cat"?"cat:"+a:v=="editor"?"cat:"+lastCat:v;document.querySelectorAll(".mn").forEach(function(b){b.classList.toggle("on",b.dataset.v==k)});
+if(v=="home")rHome();if(v=="cat")rCat(a);if(v=="check")rCheck();if(v=="admin"&&window.rAdmin)window.rAdmin();if(v=="arsip")rArsip();
+if(v=="guru")$("gc").textContent=$("gru").value.split("\n").filter(function(l){return l.trim()}).length+" orang tercatat";
+if(v=="export")$("excat").innerHTML=C.map(function(c,i){return'<button class="btn o" data-dlc="'+i+'">'+c+'</button>'}).join("");
+$("side").classList.remove("open");scrollTo(0,0)}
+function op(i){cur=i;lastCat=R[i].c;show();$("etitle").textContent=R[i].t;$("edone").checked=!!CK[i];go("editor")}
+document.addEventListener("click",function(e){var t=e.target,b;
+if(b=t.closest("[data-v]"))nav(b.dataset.v);
+else if(b=t.closest("[data-go]"))nav(b.dataset.go);
+else if(b=t.closest("[data-op]"))op(+b.dataset.op);
+else if(b=t.closest("[data-dlc]")){var c=+b.dataset.dlc,o=A;A=1;var h=R.filter(function(r){return r.c==c}).map(function(r){return build(r)}).join('<div class="pb"></div>');A=o;dl(h,C[c].replace(/\W+/g,"-"))}});
+document.addEventListener("change",function(e){var t=e.target;if(t.dataset&&t.dataset.ck!=null){CK[t.dataset.ck]=t.checked;sv();if(curV=="home")rHome();if(curV=="check")rCheck()}});
+$("edone").onchange=function(){if(cur>=0){CK[cur]=this.checked;sv()}};
+$("bk").onclick=function(){lastCat>=0?go("cat",lastCat):go("home")};
+$("mb").onclick=function(){$("side").classList.toggle("open")};
+$("cq").oninput=rCheck;
+$("crs").onclick=function(){if(confirm("Hapus semua centang?")){CK={};sv();rCheck()}};
+function theme(v){if(v=="light"||v=="dark")document.documentElement.setAttribute("data-theme",v);else document.documentElement.removeAttribute("data-theme")}
+var th0=ls("gdk-th")||"auto";$("th").value=th0;theme(th0);
+$("th").onchange=function(){ls("gdk-th",this.value);theme(this.value)};
+$("rst").onclick=function(){if(confirm("Hapus data sekolah, daftar guru, dan checklist dari browser ini?")){try{localStorage.removeItem("gdk1");localStorage.removeItem("gdk-ck");localStorage.removeItem("gdk-aidata");localStorage.removeItem("gdk-arc")}catch(e){}location.reload()}};
+
+var AIDATA={},AID=null,DM={gemini:"gemini-2.5-flash",claude:"claude-sonnet-5-5"};
+try{AIDATA=JSON.parse(ls("gdk-aidata")||"{}")}catch(e){AIDATA={}}
+function aiSave(){ls("gdk-aidata",JSON.stringify(AIDATA));if(window.cloudSave)window.cloudSave()}
+function AIH(t){return E(String(t)).replace(/\n/g,"<br>")}
+function aiCfg(){try{return JSON.parse(ls("gdk-ai")||"{}")}catch(e){return{}}}
+(function(){var c=aiCfg();$("aipv").value=c.p||"gemini";$("aim").value=c.m||DM[$("aipv").value];$("aik").value=c.k||""})();
+$("aipv").onchange=function(){$("aim").value=DM[this.value]};
+$("aisv").onclick=function(){ls("gdk-ai",JSON.stringify({p:$("aipv").value,k:$("aik").value.trim(),m:$("aim").value.trim()||DM[$("aipv").value]}));$("aist").textContent="Tersimpan di browser ini."};
+function aiSpec(r,n){var x=r.x,k,ks;
+if(r.y=="T")return'{"rows":[[...]]} dengan tepat '+n+' baris; tiap baris berisi '+x.length+' nilai teks sesuai urutan kolom: '+x.join(" | ");
+if(r.y=="L")return'{"bagian":["..."]} dengan tepat '+x.length+' elemen, berurutan untuk bagian: '+x.join(" | ")+'. Tiap bagian berisi 2 sampai 4 kalimat atau daftar bernomor (gunakan \\n untuk baris baru).';
+if(r.y=="K")return'{"rows":[[...]],"isian":{"Peraturan lain yang relevan":"..."}} dengan tepat '+n+' baris lampiran; tiap baris berisi '+x.length+' nilai sesuai kolom: '+x.join(" | ");
+if(r.y=="S"){k=Object.keys(SM).filter(function(a){return r.t.indexOf(a)>=0})[0];ks=k=="Edaran"?["uraikan latar belakang","Uraikan isi surat"]:SM[k][0]}
+else ks=["Hari/Tanggal","Waktu","Tempat","Agenda","Peserta","Tuliskan jalannya pembahasan","Tuliskan keputusan rapat","Tuliskan tindak lanjut dan penanggung jawab"];
+return'{"isian":{'+ks.map(function(a){return'"'+a+'":"..."'}).join(",")+'}} dengan kunci persis seperti contoh'}
+async function aiCall(sys,usr){var c=aiCfg();if(!c.k)throw new Error("Kunci API belum diisi. Buka Pengaturan, bagian Asisten AI.");var m=c.m||DM[c.p||"gemini"],r,j;
+if(c.p=="claude"){r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"content-type":"application/json","x-api-key":c.k,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:m,max_tokens:4096,system:sys,messages:[{role:"user",content:usr}]})});j=await r.json();if(!r.ok)throw new Error((j.error&&j.error.message)||r.status);return j.content.map(function(b){return b.text||""}).join("")}
+r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(m)+":generateContent?key="+encodeURIComponent(c.k),{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({systemInstruction:{parts:[{text:sys}]},contents:[{role:"user",parts:[{text:usr}]}],generationConfig:{temperature:.7,responseMimeType:"application/json"}})});j=await r.json();if(!r.ok)throw new Error((j.error&&j.error.message)||r.status);return(j.candidates[0].content.parts||[]).map(function(p){return p.text||""}).join("")}
+async function aiGen(r,q){var n=Math.max(1,Math.min(60,+$("rows").value||10)),g=GU().map(function(x){return x.n+"; "+x.p+"; "+x.j}).join("\n"),f=function(k){return $(k).value.trim()||"-"};
+var sys="Anda adalah asisten administrasi sekolah di Indonesia. Susun isi dokumen administrasi kepala sekolah yang formal, realistis, dan sesuai praktik sekolah di Indonesia, dengan bahasa Indonesia baku. Balas HANYA dengan JSON valid, tanpa markdown dan tanpa penjelasan.";
+var usr="Dokumen: "+r.t+"\nSekolah: "+f("sek")+"\nInstansi induk: "+f("ind")+"\nKota: "+f("kota")+"\nKepala sekolah: "+f("kep")+"\nTahun pelajaran: "+f("ta")+"\nDaftar guru dan pegawai (Nama; NIP; Jabatan):\n"+g+"\n\nHarapan pengguna: "+(q||"(tidak ada, buat isi yang umum dan wajar)")+"\n\nFormat JSON yang diminta: "+aiSpec(r,n)+"\nGunakan nama, NIP, dan jabatan dari daftar bila relevan. Jangan mengarang NIP; jika tidak ada tulis '-'. Isi data lain dengan contoh yang wajar.";
+var t=(await aiCall(sys,usr)).replace(/```json|```/g,""),d;
+try{d=JSON.parse(t.slice(t.indexOf("{"),t.lastIndexOf("}")+1))}catch(e){throw new Error("Jawaban AI tidak bisa dibaca. Coba lagi.")}
+AIDATA[r.i]=d;aiSave()}
+async function aiTry(r,q){try{await aiGen(r,q)}catch(e){if(/quota|rate|429|exhaust|overload|unavailable|busy/i.test(e.message||"")){await new Promise(function(z){setTimeout(z,20000)});await aiGen(r,q)}else throw e}}
+$("aig").onclick=async function(){if(cur<0)return;var b=this;b.disabled=true;$("ais").textContent="AI sedang menyusun dokumen...";
+try{await aiGen(R[cur],$("aiq").value.trim());show();$("ais").textContent="Selesai. Periksa dan sesuaikan hasilnya sebelum dipakai."}catch(e){$("ais").textContent="Gagal: "+(e.message||e)}b.disabled=false};
+$("aic").onclick=function(){if(cur>=0){delete AIDATA[cur];aiSave();show();$("ais").textContent="Hasil AI dihapus."}};
+function AICARD(ci){return'<div class="card" style="margin:0 0 12px"><b>Buat semua dokumen kategori ini dengan AI</b><p class="sub" style="margin:4px 0 8px">AI menyusun dokumen satu per satu dari data sekolah dan data guru. Hasilnya tersimpan dan bisa dibuka atau diunduh.</p><div class="f"><textarea id="aiqc" rows="2" placeholder="Harapan Anda untuk kategori ini (opsional)"></textarea></div><div class="row2"><button class="btn" data-aic="'+ci+'">Mulai</button><button class="btn o" id="aix" hidden>Hentikan</button></div><p class="sub" id="aicst" style="margin:8px 0 0"></p></div>'}
+var STOP=0;
+document.addEventListener("click",async function(e){if(e.target.id=="aix"){STOP=1;return}
+var b=e.target.closest("[data-aic]");if(!b)return;var ci=+b.dataset.aic,l=R.filter(function(r){return r.c==ci}),q=$("aiqc").value.trim(),st=$("aicst"),x=$("aix");
+if(!aiCfg().k){st.textContent="Kunci API belum diisi. Buka Pengaturan, bagian Asisten AI.";return}
+if(!confirm("AI akan menyusun "+l.length+" dokumen satu per satu. Ini memakai kuota atau biaya API Anda. Lanjutkan?"))return;
+STOP=0;b.disabled=true;x.hidden=false;var ok=0,dl2=aiCfg().p=="claude"?800:4500;
+for(var i=0;i<l.length;i++){if(STOP)break;st.textContent="Menyusun "+(i+1)+" dari "+l.length+": "+l[i].t+"...";
+try{await aiTry(l[i],q);ok++}catch(er){st.textContent='Berhenti pada "'+l[i].t+'": '+(er.message||er)+" ("+ok+" dokumen selesai)";b.disabled=false;x.hidden=true;return}
+await new Promise(function(z){setTimeout(z,dl2)})}
+var m=(STOP?"Dihentikan. ":"Selesai. ")+ok+" dari "+l.length+" dokumen disusun AI. Buka tiap dokumen untuk memeriksa, atau unduh semuanya.";
+rCat(ci);$("aiqc").value=q;$("aicst").textContent=m});
+var ARC={};try{ARC=JSON.parse(ls("gdk-arc")||"{}")}catch(e){ARC={}}
+function rArsip(){var ks=Object.keys(ARC).sort(function(a,b){return(ARC[b].u||0)-(ARC[a].u||0)});$("alst").innerHTML=ks.length?ks.map(function(k){var d=ARC[k];return'<div class="row"><span style="flex:1">'+E(d.t)+'<br><small class="sub">Disimpan '+new Date(d.u).toLocaleString("id-ID")+'</small></span><button class="btn" data-ao="'+k+'">Buka</button><button class="btn o" data-ad="'+k+'">Unduh Word</button><button class="btn o" data-ax="'+k+'">Hapus</button></div>'}).join(""):'<div class="row">Belum ada dokumen di arsip. Buka dokumen, edit, lalu klik Simpan ke arsip.</div>'}
+$("arc").onclick=function(){if(cur<0)return;var k="d"+cur;ARC[k]={t:R[cur].t,c:R[cur].c,h:$("paper").innerHTML,u:Date.now()};ls("gdk-arc",JSON.stringify(ARC));var on=window.arcCloud&&window.arcCloud(k);$("ais").textContent=on?"Tersimpan di arsip dan dikirim ke Firebase.":"Tersimpan di arsip browser ini."};
+document.addEventListener("click",function(e){var b;
+if(b=e.target.closest("[data-ao]")){var k=b.dataset.ao,i=+k.slice(1);cur=i;lastCat=R[i].c;$("etitle").textContent=R[i].t;$("edone").checked=!!CK[i];go("editor");$("paper").innerHTML=ARC[k].h;$("ais").textContent="Versi arsip dibuka. Perubahan baru perlu disimpan ulang ke arsip."}
+else if(b=e.target.closest("[data-ad]")){var d=ARC[b.dataset.ad];dl(d.h,d.t.replace(/\W+/g,"-"))}
+else if(b=e.target.closest("[data-ax]")){var k2=b.dataset.ax;if(confirm("Hapus dokumen ini dari arsip?")){delete ARC[k2];ls("gdk-arc",JSON.stringify(ARC));if(window.arcDel)window.arcDel(k2);rArsip()}}});
+menu();go("home");
+</script>
+<script type="text/plain" id="wcss">
+body{font-family:"Times New Roman",serif;font-size:12pt}
+.kop{text-align:center;border-bottom:3px double #000;padding-bottom:6px;margin-bottom:14px}
+.sk{font-size:16pt;font-weight:bold}.al{font-size:10pt}
+.jd{text-align:center;font-size:13pt}.sj,.c{text-align:center}
+h3{font-size:12pt}
+table{border-collapse:collapse;width:100%;font-size:11pt}
+th,td{border:1px solid #000;padding:4px 6px;vertical-align:top}
+th{background:#eee}
+.nb td,.sg td{border:none}
+.ttd{margin-left:55%}
+.ph{background:#fff3b0}
+.pb{page-break-before:always}
+</script><script type="module">
+const $=id=>document.getElementById(id);
+function pcfg(t){const a=t.indexOf("{"),b=t.lastIndexOf("}");if(a<0||b<0)return null;const x=t.slice(a,b+1).replace(/([{,]\s*)([A-Za-z_]\w*)\s*:/g,'$1"$2":').replace(/'/g,'"').replace(/,\s*}/g,"}");try{return JSON.parse(x)}catch(e){return null}}
+const DEF={apiKey:"AIzaSyD3-GPo9r33GnCSEsJ11gKN3LEHzljmY8E",authDomain:"pendidikan-bb558.firebaseapp.com",databaseURL:"https://pendidikan-bb558-default-rtdb.firebaseio.com",projectId:"pendidikan-bb558",storageBucket:"pendidikan-bb558.firebasestorage.app",messagingSenderId:"292876476982",appId:"1:292876476982:web:38be49a79609cc002aee97",measurementId:"G-GRLTFN8F4P"};
+let cfg=DEF;try{const z=localStorage.getItem("gdk-fb");if(z=="off")cfg=null;else if(z)cfg=JSON.parse(z)}catch(e){}
+const on=!!(cfg&&cfg.apiKey&&cfg.projectId);
+$("fst").textContent=on?"Terhubung ke proyek "+cfg.projectId+".":"Belum terhubung. Data hanya tersimpan di browser ini.";
+$("fbs").onclick=()=>{const c=pcfg($("fbc").value);if(!c||!c.apiKey||!c.authDomain||!c.projectId||!c.databaseURL){$("fst").textContent="Konfigurasi tidak terbaca. Tempel lengkap dengan apiKey, authDomain, databaseURL, dan projectId.";return}try{localStorage.setItem("gdk-fb",JSON.stringify(c))}catch(e){}location.reload()};
+$("fbd").onclick=()=>{try{localStorage.setItem("gdk-fb","off")}catch(e){}location.reload()};
+$("fbr").onclick=()=>{try{localStorage.removeItem("gdk-fb")}catch(e){}location.reload()};
+if(on){
+$("auth").hidden=false;$("am").textContent="Menghubungkan ke Firebase...";
+try{
+const B="https://www.gstatic.com/firebasejs/10.14.1/";
+const [A,Au,Db]=await Promise.all([import(B+"firebase-app.js"),import(B+"firebase-auth.js"),import(B+"firebase-database.js")]);
+const app=A.initializeApp(cfg),auth=Au.getAuth(app),db=Db.getDatabase(app);
+let uid=null,ready=false,tm=null;
+function fe(e){const m=(e&&(e.message||e.code))||"";if(/permission/i.test(m))return"akses ditolak oleh Rules";if(/offline/i.test(m))return"tidak terhubung ke database, periksa databaseURL dan koneksi";return m||"kesalahan tidak diketahui"}
+const ref=()=>Db.ref(db,"administrasi_kepsek/"+uid),syn=t=>{$("syn").textContent=t};
+const snap=()=>{const o={};window.FL.forEach(k=>o[k]=$(k).value);return o};
+window.cloudSave=()=>{if(!uid||!ready)return;clearTimeout(tm);syn("Menyimpan...");tm=setTimeout(async()=>{try{await Db.update(ref(),{st:snap(),ck:JSON.stringify(window.CK),ai:JSON.stringify(window.AIDATA||{}),u:Date.now()});syn("Tersimpan online")}catch(e){syn("Gagal menyimpan ("+fe(e)+"). Periksa Rules.")}},800)};
+window.arcCloud=k=>{if(!uid||!ready||!window.ARC[k])return false;Db.set(Db.ref(db,"administrasi_kepsek/"+uid+"/arsip/"+k),window.ARC[k]).then(()=>syn("Arsip tersimpan online")).catch(e=>syn("Gagal menyimpan arsip ("+fe(e)+")"));return true};
+window.arcDel=k=>{if(uid&&ready)Db.remove(Db.ref(db,"administrasi_kepsek/"+uid+"/arsip/"+k)).catch(e=>syn("Gagal menghapus arsip ("+fe(e)+")"))};
+const o=window.sv;window.sv=()=>{o();window.cloudSave()};
+document.addEventListener("change",e=>{if(window.FL.indexOf(e.target.id)>=0)window.cloudSave()});
+const E={"auth/invalid-credential":"Email atau kata sandi salah.","auth/invalid-email":"Format email tidak valid.","auth/email-already-in-use":"Email sudah terdaftar.","auth/weak-password":"Kata sandi minimal 6 karakter.","auth/network-request-failed":"Tidak ada koneksi internet.","auth/operation-not-allowed":"Metode Email/Password belum diaktifkan di Firebase Authentication.","auth/too-many-requests":"Terlalu banyak percobaan. Coba lagi nanti.","auth/missing-password":"Isi kata sandi."};
+const er=e=>E[e.code]||("Gagal: "+(e.code||e.message));
+const em=()=>$("ae").value.trim(),pw=()=>$("ap").value,msg=t=>{$("am").textContent=t};
+$("ain").onclick=async()=>{msg("");try{await Au.signInWithEmailAndPassword(auth,em(),pw())}catch(e){msg(er(e))}};
+$("aup").onclick=async()=>{msg("");try{await Au.createUserWithEmailAndPassword(auth,em(),pw())}catch(e){msg(er(e))}};
+$("afg").onclick=async()=>{if(!em())return msg("Isi email terlebih dahulu.");try{await Au.sendPasswordResetEmail(auth,em());msg("Tautan reset kata sandi dikirim ke email.")}catch(e){msg(er(e))}};
+$("ap").onkeydown=e=>{if(e.key=="Enter")$("ain").click()};
+$("askip").onclick=()=>{$("auth").hidden=true};
+$("out").onclick=async()=>{await Au.signOut(auth);try{localStorage.removeItem("gdk1");localStorage.removeItem("gdk-ck");localStorage.removeItem("gdk-aidata");localStorage.removeItem("gdk-arc")}catch(e){}location.reload()};
+const pref=k=>Db.ref(db,"administrasi_profil/"+k),esc=s=>String(s==null?"":s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+function gate(t){$("auth").hidden=true;$("gate").hidden=false;$("gm").textContent=t;const u=auth.currentUser;$("gu").textContent="Email: "+(u?u.email:"")+" | UID: "+uid}
+$("gre").onclick=()=>location.reload();$("gout").onclick=()=>$("out").click();
+let AF="menunggu",AD={};
+function drawA(){const ks=Object.keys(AD),cnt=x=>ks.filter(k=>x=="semua"||AD[k].status==x).length;
+$("atabs").innerHTML=["menunggu","aktif","ditolak","semua"].map(x=>'<button class="btn'+(x==AF?'':' o')+'" data-af="'+x+'">'+x[0].toUpperCase()+x.slice(1)+' ('+cnt(x)+')</button>').join("");
+const l=ks.filter(k=>AF=="semua"||AD[k].status==AF).sort((a,b)=>(AD[b].dibuat||0)-(AD[a].dibuat||0));
+$("alist").innerHTML=l.length?l.map(k=>{const d=AD[k];return'<div class="row"><span style="flex:1;word-break:break-all">'+esc(d.email)+'<br><small class="sub">'+(d.dibuat?new Date(d.dibuat).toLocaleDateString("id-ID"):"")+'</small></span><span class="pill">'+esc(d.status)+'</span>'+(d.status!="aktif"?'<button class="btn" data-as="'+esc(k)+'|aktif">Setujui</button>':'')+(d.status!="ditolak"?'<button class="btn o" data-as="'+esc(k)+'|ditolak">Tolak</button>':'')+'<button class="btn o" data-as="'+esc(k)+'|hapus">Hapus</button></div>'}).join(""):'<div class="row">Tidak ada akun pada daftar ini.</div>'}
+async function loadA(){$("ast").textContent="Memuat...";try{const r=await Db.get(Db.ref(db,"administrasi_profil"));AD=r.val()||{};$("ast").textContent="";drawA()}catch(e){$("ast").textContent="Gagal memuat daftar ("+fe(e)+"). Periksa Rules database."}}
+document.addEventListener("click",async e=>{const f=e.target.closest("[data-af]");if(f){AF=f.dataset.af;drawA();return}
+const a=e.target.closest("[data-as]");if(!a)return;const[k,v]=a.dataset.as.split("|");
+try{if(v=="hapus"){if(!confirm("Hapus akun ini dari daftar? Pengguna harus masuk lagi agar muncul kembali sebagai menunggu."))return;await Db.remove(pref(k));delete AD[k]}
+else{await Db.update(pref(k),{status:v,diputuskan:Date.now(),oleh:auth.currentUser.email});AD[k].status=v}drawA()}catch(er){$("ast").textContent="Gagal memperbarui ("+fe(er)+")."}});
+Au.onAuthStateChanged(auth,async u=>{
+if(!u){uid=null;ready=false;$("usr").hidden=true;$("gate").hidden=true;$("admmn").hidden=true;$("auth").hidden=false;msg("");return}
+uid=u.uid;$("usr").hidden=false;$("ue").textContent=u.email;
+let adm=false;try{adm=(await Db.get(Db.ref(db,"administrasi_admin/"+uid))).val()===true}catch(e){}
+$("admmn").hidden=!adm;if(adm)window.rAdmin=loadA;
+if(!adm){let st="menunggu";
+try{const ps=await Db.get(pref(uid));if(ps.exists())st=ps.val().status;else await Db.set(pref(uid),{email:u.email,status:"menunggu",dibuat:Date.now()})}
+catch(e){gate("Gagal memeriksa status akun ("+fe(e)+"). Periksa Rules database.");return}
+if(st!="aktif"){gate(st=="ditolak"?"Akun Anda tidak disetujui atau telah dinonaktifkan oleh admin utama.":"Akun Anda menunggu verifikasi admin utama. Anda bisa masuk setelah disetujui.");return}}
+$("gate").hidden=true;$("auth").hidden=true;syn("Memuat data...");
+try{
+const s=await Db.get(ref());
+if(s.exists()){const d=s.val()||{};
+if(d.st)window.FL.forEach(k=>{if(d.st[k]!=null){$(k).value=d.st[k];window.st[k]=d.st[k]}});
+try{window.CK=JSON.parse(d.ck||"{}")}catch(e){window.CK={}}
+try{if(d.ai)window.AIDATA=JSON.parse(d.ai)}catch(e){}
+try{const r=d.arsip||{};for(const k in r){const l=window.ARC[k];if(!l||(r[k].u||0)>=(l.u||0))window.ARC[k]=r[k]}localStorage.setItem("gdk-arc",JSON.stringify(window.ARC))}catch(e){}
+try{localStorage.setItem("gdk1",JSON.stringify(window.st));localStorage.setItem("gdk-ck",JSON.stringify(window.CK));localStorage.setItem("gdk-aidata",JSON.stringify(window.AIDATA||{}))}catch(e){}
+ready=true;syn("Tersinkron");Object.keys(window.ARC).forEach(k=>{if(!(d.arsip&&d.arsip[k]&&(d.arsip[k].u||0)>=(window.ARC[k].u||0)))window.arcCloud(k)})}
+else{ready=true;window.cloudSave();Object.keys(window.ARC).forEach(k=>window.arcCloud(k))}
+}catch(e){syn("Gagal memuat ("+fe(e)+"). Periksa Rules database.")}
+window.go("home")});
+}catch(e){$("auth").hidden=true;$("fst").textContent="Gagal terhubung: "+(e.message||e)+". Mode lokal tetap bisa dipakai."}
+}
+</script>
+</body>
+</html>
